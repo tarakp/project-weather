@@ -11,21 +11,44 @@
 ####################################################
 
 # Import Dependencies
-from flask import Flask, render_template, redirect
 import os
+import psycopg2
+from flask import (
+    Flask,
+    render_template,
+    jsonify,
+    request,
+    redirect)
+from flask_sqlalchemy import SQLAlchemy
+
+# Import local file dependencies
+from models import create_classes
 import refresh_data
 
-# Setup Flask
+#################################################
+# Flask Setup
+#################################################
 app = Flask(__name__)
 
-# # Setup Database
-# from flask_sqlalchemy import SQLAlchemy
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '')
-# # Remove tracking modifications
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# db = SQLAlchemy(app)
+#################################################
+# Database Setup
+#################################################
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://hgquoluqhpempn:1250a45ed32360cfb6492b98943bc4cd80699a8f00a1144625b3cf52b2db11c9@ec2-44-194-112-166.compute-1.amazonaws.com:5432/d3lajcergj0dej?sslmode=require'
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL?sslmode=require')
+
+# Remove tracking modifications
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+camp_data = create_classes(db)
+
+
+#################################################
 # Create index.html route
+#################################################
 @app.route("/")
 def index():
     refreshed_data = refresh_data.refresh()
