@@ -127,3 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+e_sql_data Load/postgres_pswd.py
