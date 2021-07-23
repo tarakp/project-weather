@@ -1,15 +1,38 @@
-###################################################################
-# holdings_clean.ipynb - Holdings file Clean
+########################################################################################################
+# data_sql.py - Data pull from json, clean it up and upload to SQL
 # by Tarak Patel
 #
-# This is Python script for cleanup of 5 Portfolio holdings excel file 
-# downloaded from
-# https://individuals.voya.com/product/variable-portfolio/holdings/monthly
+# This is Python script Pulls the metadata (link) from following three json data:-
+# 1. https://api.weather.gov/points/31.7276,-110.8754
+# 2. https://api.weather.gov/points/32.395,-110.6911
+# 3. https://api.weather.gov/points/32.4186,-110.7383
+# 
+# The Link pulled (json data) from the above three json data are
+# the grid data links that are use to pull all the weather related data for the three capmgrounds:-
+# 1.  https://api.weather.gov/gridpoints/TWC/91,26
+# 2.  https://api.weather.gov/gridpoints/TWC/101,54
+# 3.  https://api.weather.gov/gridpoints/TWC/100,56
+# 
+# From the above grid data 4 dataframes are created. The challenge was pulling the data from the 
+# above json links and then converting the date-time columns to the format (date-time) that can be used 
+# to upload to SQL and creating the graphs. Also Temperatures need to be converted to degreeF and wind 
+# speeds to Miles per hour:-
+# 1. Campgroud information dF with information like lat, lon, elevation, 
+#    meta url, grid url, forest url, campsite url fire danger and map code.
+# 2. One for each campground (bs_grid_df, rc_grid_df, sc_grid_df). These df
+#    have columns (temp in degreeF, temp time, wind speed, wind speed time, wind gust,
+#    wind gust time, prob precipitation, Prob precp time, qty precip, qty precip time).
+# 
+# SQLalchemy was used to create 4 tables in postgres SQL and then the above 4 DataFrames were uploaded
+# Postgres SQL. The table names in SQL are:
+# 1. camp_wx
+# 2. cg_bog_spring
+# 3. cg_rose_canyon
+# 4. cg_spencer_canyon
 #
-# Then it combines all the df into one df to upload to SQL.
-#
-# This script was converted from holdings_clean.ipynb
-####################################################################
+# This script was converted from data_sql.ipynb
+##########################################################################################################
+
 
 # To add a new cell, type '# %%'
 # To add a new markdown cell, type '# %% [markdown]'
@@ -635,8 +658,8 @@ from postgres_pswd import host, database, username, passwd
 output='top3'
 
 # Create engine to mutual_funds database
+engine_startup = "add your Like to the DB"
 
-engine_startup = 'postgresql://hgquoluqhpempn:1250a45ed32360cfb6492b98943bc4cd80699a8f00a1144625b3cf52b2db11c9@ec2-44-194-112-166.compute-1.amazonaws.com:5432/d3lajcergj0dej?sslmode=require'
 engine = create_engine(engine_startup)
 
 # reflect the existing database into a new model
