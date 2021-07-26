@@ -1,50 +1,92 @@
 # camp_wx_dashboard
+UofA Data Analytics Bootcamp Group Project 2, Visualization
+
+**Team**:  
+* Nicole Lund: <a href="https://www.linkedin.com/in/nicolelund-1/" target="_blank">https://www.linkedin.com/in/nicolelund-1/</a>
+* Tarak Patel: <a href="https://www.linkedin.com/in/tarakpatel-1/" target="_blank">https://www.linkedin.com/in/tarakpatel-1/</a>
+* Anne Niemiec: <a href="https://www.linkedin.com/in/anne-niemiec/" target="_blank">https://www.linkedin.com/in/anne-niemiec/</a>
 
 ### Description
-Build a dashboard for a Tucson AZ camping club that gathers the National Weather Service forecast for their favorite campsites. Club members can quickly check which campground to head to for the weekend.
+Build a dashboard for a Tucson AZ camping club that gathers the National Weather Service forecast for their favorite campsites. Club members can quickly check the weather forecast to decide which campground to head to for the weekend.
 
-### Data Sources
-* National Weather Service API: <a href="https://www.weather.gov/documentation/services-web-api" target="_blank">https://www.weather.gov/documentation/services-web-api</a>
-* National Weather Service API usage: <a href="https://weather-gov.github.io/api/" target="_blank">https://weather-gov.github.io/api/</a>
-* Campground Weather
+### Deployed Website
+<a href="https://campground-wx.herokuapp.com/" target="_blank">https://campground-wx.herokuapp.com/</a>
 
-| Campground | Lat/Lng | Elevation | NWS Point Metadata URL | NWS Forecast Grid URL |
-|----------------|-------------------|-----------|--------------------------------------------------|-----------------------------------------------|
-| Bog Springs    | 31.7276,-110.8754 | 5200 ft   | https://api.weather.gov/points/31.7276,-110.8754 | https://api.weather.gov/gridpoints/TWC/91,26  |
-| Rose Canyon    | 32.3950,-110.6911 | 7000 ft   | https://api.weather.gov/points/32.395,-110.6911  | https://api.weather.gov/gridpoints/TWC/101,54 |
-| Spencer Canyon | 32.4186,-110.7383 | 8000 ft   | https://api.weather.gov/points/32.4186,-110.7383 | https://api.weather.gov/gridpoints/TWC/100,56 |
+### Tools Utilized
+| Webpage | Extract, Transform, Load (ETL) | Visualization |
+|----------|----------|----------|
+| Flask | Python | Javascript | 
+| HTML | Pandas | D3.js |
+| CSS | SQLAlchemy | Plotly.js |
+| Heroku Server | postgreSQL | Slick.js |
 
-* Campground Details
+### Project Content Descriptions
+* **code_dev_archive**: Project proposal and initial layout, project instructions, Heroku server starter code, and development code
+* **images**: Webpage screenshots
+* **static**: webpage css and javascript files
+* **templates**: webpage html
+* **app.py**: webpage flask application
+* **data_sql.py**: postreSQL ETL script
+* **LICENSE**: MIT License Disclosure
+* **models.py**: Python class definitions for the postgreSQL data tables
+* **Procfile** and **requirements.txt**: Application definition files required by Heroku
 
-| Campground | Forest Service URL | Campsite Image URL |
-|----------------|-------------------|-----------|
-| Bog Springs    | https://www.fs.usda.gov/recarea/coronado/recreation/camping-cabins/recarea/?recid=25732&actid=29 | https://www.fs.usda.gov/Internet/FSE_MEDIA/fseprd746637.jpg |
-| Rose Canyon    | https://www.fs.usda.gov/recarea/coronado/recreation/camping-cabins/recarea/?recid=25698&actid=29 | https://cdn.recreation.gov/public/2019/06/20/00/19/232284_beeddff5-c966-49e2-93a8-c63c1cf21294_700.jpg |
-| Spencer Canyon | https://www.fs.usda.gov/recarea/coronado/recreation/camping-cabins/recarea/?recid=25710&actid=29 | https://www.fs.usda.gov/Internet/FSE_MEDIA/fseprd746608.jpg |
+### Completed Webpage
+Webpage upon initial load
+![Landing Page](images/landing_page.png)
 
-### Technologies
-* Underlying Components
-    * Python Flask (similar to Mars webscraping challenge)
-    * postgreSQL database (similar to Mars webscraping challenge, replace json data every update)
-        * campground
-        * lat_lng
-        * elevation
-        * nws_point_metadata_url
-        * nws_point_metadata_json
-        * nws_grid_forecast_url
-        * nws_grid_forecast_json
-        * forest_service_url
-        * fire_danger
-        * campsite_image_url
-        * embedded_google_map_code
-* Visible Dashboard
-    * Button to update database (similar to Mars webscraping)
-    * Plotly box plot of all forecasted temperatures for each campground (<a href="https://plotly.com/javascript/box-plots/" target="_blank">https://plotly.com/javascript/box-plots/</a>)
-    * Campground selection drop down (similar to belly button dashboard)
-    * Webscraped fire danger level (similar to Mars webscraping)
-    * Links to campground webpages
-    * 3-day detailed weather forecast as Plotly stacked line charts of Temp, Winds, & Precip similar to NWS hourly graph
-    * Single item slick carousel of Campground image and google map location (<a href="https://kenwheeler.github.io/slick/" target="_blank">https://kenwheeler.github.io/slick/</a>)
+Webpage after user selections
+![User selections](images/user_selections.png)
+
+### Source Data and Starter Code
+* Starter code provided by 
+    * UofA Data Analytics Bootcamp (see code_dev_archive\a_project_instructions\Heroku_Deployment\Starter) 
+    * <a href="https://github.com/hslanalytics/heroku-postgres-bootcamp" target="_blank">https://github.com/hslanalytics/heroku-postgres-bootcamp</a>
+* Forecast data from the National Weather Service (<a href="https://www.weather.gov/documentation/services-web-api" target="_blank">https://www.weather.gov/documentation/services-web-api</a>)
+
+### Deployment Instructions
+1. Clone repository
+2. Create new application on heroku.com
+3. Deploy on Heroku using GitHub method
+4. Select postgreSQL ("Hobby Dev - Free" version) Add-on within Heroku application
+5. Initialize Heroku console by selecting "more" > "run console"
+6. Enter "python initdb.py"
+7. Navigate to the Heroku deployed webpage
+8. Click on the "Get the latest weather" button
+
+9. To run the application locally
+
+    a. Setup local environment for repository in GitBash
+    ```bash
+    conda create -n camp-wx-env python 3.6
+    source activate camp-wx-env
     
-### Sample Layout
-![sample](b_sample_layout/sample_layout_dashboard.png)
+    pip install gunicorn
+    pip install flask
+    pip install SQLAlchemy
+    pip install flask-sqlalchemy
+    pip install psycopg2-binary
+    pip install pandas
+    pip install requests
+    pip install Jinja2
+    pip install splinter
+    pip install bs4
+    ```
+    
+    b. Create a file outside of the repo called camp_wx_uri.py with the following code
+    ```python
+    # insert Heroku database uri link inside the quotes
+    uri = ''
+    ```
+
+    c. Open app.py in code editor
+    
+    d. Select camp-wx-env environment
+    
+    d. Replace the following code segment with the path to camp_wx_uri.py
+    ```python
+    sys.path.append(r"C:\Users\nlund\Documents\GitHub\untracked_files")
+    ```
+
+    e. Run app.py and navigate browser to <a href="127.0.0.1:5000" target="_blank">127.0.0.1:5000</a> 
+    
